@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/callerAvatar"
+            android:layout_width="43dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="5dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/avatar" />
+
+
+        <LinearLayout
+            android:layout_width="160dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/callerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingHorizontal="5dp"
+                android:paddingVertical="5dp">
+
+                <Button
+                    android:id="@+id/answerButton"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_weight="0.4"
+                    android:background="@drawable/greenbuttonstyle"
+                    android:elevation="5dp"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="رد"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textStyle="bold|italic" />
+
+                <Button
+                    android:id="@+id/declineButton"
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_weight="0.4"
+                    android:background="@drawable/redbuttonstyle"
+                    android:elevation="5dp"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="رفض"
+
+
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

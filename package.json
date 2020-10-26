@@ -1,0 +1,25 @@
+{
+  "name": "react-native-foreground-service",
+  "version": "1.0.0",
+  "description": "React native module to start foreground service on android",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ebrahimhassan121/react-native-foreground-service.git"
+  },
+  "keywords": [
+    "react-native",
+    "foreground",
+    "service",
+    "android",
+    "voximplant"
+  ],
+  "author": "Softmills",
+  "license": "MIT",
+  "homepage": "https://github.com/ebrahimhassan121/react-native-foreground-service",
+  "peerDependencies": {
+    "react-native": ">= 0.41.2"
+  }
+}
