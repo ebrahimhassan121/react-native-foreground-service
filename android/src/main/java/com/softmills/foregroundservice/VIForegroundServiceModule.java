@@ -5,8 +5,10 @@
 package com.softmills.foregroundservice;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.PowerManager;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -73,7 +75,19 @@ public class VIForegroundServiceModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void isBusy(final Promise promise){
         promise.resolve( VIForegroundService.inCall);
+    }
+    @ReactMethod
+    public void setBusy(final boolean busy){
+        VIForegroundService.inCall=busy;
+    }
+    @ReactMethod
+    public void wakeScreen(){
+        PowerManager pm = (PowerManager) reactContext.getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = Build.VERSION.SDK_INT >= 20 ? pm.isInteractive() : pm.isScreenOn(); // check if screen is on
+        if (!isScreenOn) {
+            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "myApp:notificationLock");
+            wl.acquire(3000); //set your time in milliseconds
+        }
 
     }
-
 }

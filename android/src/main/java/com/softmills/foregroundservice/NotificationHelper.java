@@ -10,6 +10,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +48,8 @@ class NotificationHelper {
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Uri sounduri = Uri.parse("android.resource://" + VIForegroundServiceModule.reactContext.getPackageName() + "/"+ R.raw.nosound);
+
             if (!channelConfig.hasKey("id")) {
                 promise.reject(ERROR_INVALID_CONFIG, "VIForegroundService: Channel id is required");
                 return;
@@ -67,6 +71,11 @@ class NotificationHelper {
             NotificationChannel channel = new NotificationChannel(channelId, channelName, channelImportance);
             channel.setDescription(channelDescription);
             channel.enableVibration(enableVibration);
+            channel.setSound(sounduri ,
+                    new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            .setUsage(AudioAttributes.USAGE_UNKNOWN).build());
+            channel.setVibrationPattern(new long[]{0, 1000, 500, 1000, 0, 1000, 500, 1000, 0, 1000, 500, 1000, 0, 1000, 500, 1000, 0, 1000, 500, 1000, 0, 1000, 500, 1000});
+
             mNotificationManager.createNotificationChannel(channel);
             promise.resolve(null);
         } else {

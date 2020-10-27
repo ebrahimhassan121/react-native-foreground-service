@@ -72,6 +72,10 @@ export default class VIForegroundService {
     static async isBusy(){
         return await ForegroundServiceModule.isBusy();
     }
+    static async setBusy(isBusy=true){
+        return await ForegroundServiceModule.setBusy(isBusy);
+    }
+  
 }
 
 

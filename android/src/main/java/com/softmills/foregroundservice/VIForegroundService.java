@@ -20,8 +20,10 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -67,6 +69,12 @@ public class VIForegroundService extends Service {
                     LoadImageTask task = new LoadImageTask(new LoadImageTask.OnSuccess() {
                         @Override
                         public void onSuccess(Bitmap icon) {
+                            PowerManager pm = (PowerManager) VIForegroundServiceModule.reactContext.getSystemService(Context.POWER_SERVICE);
+                            boolean isScreenOn = Build.VERSION.SDK_INT >= 20 ? pm.isInteractive() : pm.isScreenOn(); // check if screen is on
+                            if (!isScreenOn) {
+                                PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Telawa:notificationLock");
+                                wl.acquire(3000); //set your time in milliseconds
+                            }
                             VIForegroundService.this.startForeground(NOTIFICATION_ID, VIForegroundService.this.buildCustomNotification(finalIntnet, NOTIFICATION_ID, notificationConfig,icon));
 
                         }
@@ -151,13 +159,14 @@ public class VIForegroundService extends Service {
         notificationBuilder.setPriority(Notification.PRIORITY_MAX) ;
         notificationBuilder.setStyle(new NotificationCompat.InboxStyle());
         notificationBuilder.setFullScreenIntent(FullScreenPendingIntent,true);
+
         //Vibration
         notificationBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
 
         //LED
         notificationBuilder.setLights(Color.RED, 3000, 3000);
         //Ton
-        notificationBuilder.setSound(Uri.parse("android.resource://" + this.getPackageName() + "/"+ R.raw.ringtune));
+        notificationBuilder.setSound(Uri.parse("android.resource://" + this.getPackageName() + "/"+ R.raw.nosound));
         return notificationBuilder.build();
     }
     private Class getMainActivityClass(Context context) {
