@@ -10,6 +10,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -78,7 +79,7 @@ public class VIForegroundService extends Service {
                             VIForegroundService.this.startForeground(NOTIFICATION_ID, VIForegroundService.this.buildCustomNotification(finalIntnet, NOTIFICATION_ID, notificationConfig,icon));
 
                         }
-                    });
+                    },VIForegroundServiceModule.reactContext);
                     task.execute(futureTarget);
 
 
@@ -219,13 +220,14 @@ public class VIForegroundService extends Service {
 
     private static class LoadImageTask extends AsyncTask<FutureTarget<Bitmap>, Void, Bitmap> {
         private OnSuccess onSuccess;
-
+        private Context context;
         interface OnSuccess {
             void onSuccess(Bitmap bitmap);
         }
 
-        LoadImageTask(OnSuccess onSuccess) {
+        LoadImageTask(OnSuccess onSuccess,Context context) {
             this.onSuccess = onSuccess;
+            this.context=context;
         }
 
         @SafeVarargs @Override
@@ -244,6 +246,13 @@ public class VIForegroundService extends Service {
             super.onPostExecute(bitmap);
             if (bitmap != null)
                 onSuccess.onSuccess(bitmap);
+            else {
+
+                Bitmap defaultbitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.avatar);
+                onSuccess.onSuccess(defaultbitmap);
+                Log.v("@doInBackground","get failed");
+
+            }
         }
     }
    }
