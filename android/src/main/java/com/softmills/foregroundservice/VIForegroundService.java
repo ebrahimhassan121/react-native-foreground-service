@@ -97,7 +97,7 @@ public class VIForegroundService extends Service {
     Notification buildCustomNotification(Intent intent, int notificationId,Bundle notificationConfig,Bitmap bitmap) {
 
         String Notification_CHANNEL_ID=CHANNEL_ID;
-        String avatarUrl="";String DeclineText="";String AcceptText="";String CallerName="";String Description="";
+        String avatarUrl="";String DeclineText="";String AcceptText="";String CallerName="";String Description="";String miniDescription="";
         if ( notificationConfig.containsKey("channelId")) {
             Notification_CHANNEL_ID=notificationConfig.getString("channelId");
         }
@@ -116,7 +116,9 @@ public class VIForegroundService extends Service {
         if(notificationConfig.containsKey("description")){
             Description=  notificationConfig.getString("description");
         }
-
+        if(notificationConfig.containsKey("miniDescription")){
+            miniDescription=  notificationConfig.getString("miniDescription");
+        }
         Intent DeclineIntent = new Intent(this, CallNotificationActionReceiver.class);
         DeclineIntent.setAction("decline");
         DeclineIntent.putExtra("action","decline");
@@ -147,13 +149,16 @@ public class VIForegroundService extends Service {
         notificationView.setImageViewBitmap(R.id.callerAvatar,bitmap);
         notificationViewExpanded.setImageViewBitmap(R.id.callerAvatar,bitmap);
 
+        RemoteViews notificationViewHeadsUp=notificationViewExpanded.clone();
+        notificationViewHeadsUp.setTextViewText(R.id.description,miniDescription);
+
         NotificationCompat.Builder notificationBuilder=
                 new NotificationCompat.Builder(this,Notification_CHANNEL_ID)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setCategory(Notification.CATEGORY_CALL);
         notificationBuilder.setCustomContentView(notificationView);
         notificationBuilder.setCustomBigContentView(notificationViewExpanded);
-        notificationBuilder.setCustomHeadsUpContentView(notificationViewExpanded);
+        notificationBuilder.setCustomHeadsUpContentView(notificationViewHeadsUp);
         notificationBuilder.setSmallIcon(R.drawable.ic_call_black_24dp);
         notificationBuilder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         notificationBuilder.setOngoing(true);
