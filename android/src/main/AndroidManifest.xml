@@ -3,7 +3,7 @@
     package="com.softmills.foregroundservice">
 
     <application>
-        <receiver android:name=".CallNotificationActionReceiver">
+        <receiver android:exported="true" android:name=".CallNotificationActionReceiver">
             <intent-filter>
                 <action android:name="decline" />
                 <action android:name="accept" />
